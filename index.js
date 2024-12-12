@@ -1,16 +1,7 @@
-class Hostel{
+class Hostel {}
 
-}
+class Admin {}
 
-class Admin {
+class Korisnik {}
 
-}
-
-class Korisnik{
-    
-
-} 
-
-
-}
-nedim
+//nedim
