@@ -1,3 +1,5 @@
+//zadatak
+
 class Hostel{
 
 }
@@ -10,7 +12,3 @@ class Korisnik{
     
 
 } 
-
-
-}
-
