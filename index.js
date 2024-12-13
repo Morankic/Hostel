@@ -1,10 +1,8 @@
-//Treba napraviti klase za usluge
-
 class Hostel {
     /* ukupan broj soba,korisnici(niz), koje su sobe dostupne*/
     //provjeri dvokretne i jednokrevetne, deluxe -ukupno 7 soba
     ukupniBrojSoba;
-    sviKorisnici = [];
+    #sviKorisnici = [];
     dostupneSobe = [];
 
     constructor(ukupniBrojSoba) {
@@ -19,10 +17,13 @@ class Hostel {
 
     }
 
+    get spisakKorisnika(){
+        return this.#sviKorisnici;
+    }
 }
 
 class Soba {
-    // tip sobe, da li je slobodna, broj sobe , 
+    // tip sobe, da li je slobodna, broj sobe
     tipSobe;
     redniBrojSobe;
     jeSlobodna = 'true';
@@ -32,7 +33,7 @@ class Soba {
         this.redniBrojSobe = redniBrojSobe;
     }
 
-    promjeniDostupnost() {
+    promjeniDostupnost(trenutnoStanje) {
 
     }
 }
@@ -46,30 +47,32 @@ class Admin {
     //izloguj sve ili individualno - metoda 5.5()
     //metoda 5.75 (ugasiSistem)
     //pretrazi korisnika po imenu/br licne karte/username -metoda 6(pretraziKorisnika)
-    dodjeliKorisnickoImeKorisniku;
-    dodjeliPasswordKorisniku;
-    dodjeliBrojSobe;
-    dodjeliTipSobe;
-    unesiVrijemePrijaveUHotel;
-
-    constructor(dodjeliKorisnickoImeKorisniku, dodjeliPasswordKorisniku, dodjeliBrojSobe, dodjeliTipSobe, unesiVrijemePrijaveUHotel) {
-        this.dodjeliKorisnickoImeKorisniku = dodjeliKorisnickoImeKorisniku;
-        this.dodjeliPasswordKorisniku = dodjeliPasswordKorisniku;
-        this.dodjeliBrojSobe = dodjeliBrojSobe;
-        this.dodjeliTipSobe = dodjeliTipSobe;
-        this.unesiVrijemePrijaveUHotel = unesiVrijemePrijaveUHotel;
-    }
-
-    promjenaSobe() { }
-    promjenaTipaSobe() { }
-    azurirajIskoristeneUslugeKorisniku(usluga) { }
-    izdajRacunKorisniku() { }
+    
+    dodjeliKorisnickoImeKorisniku(korisnik){}
+    #dodjeliPasswordKorisniku(korisnik){}
+    dodjeliBrojSobe(){}
+    dodjeliTipSobe(){}
+    unesiVrijemePrijaveUHotel(){}
+    promjeniSobu() { }
+    promjeniTipSobe() { }
+    /* azurirajIskoristeneUslugeKorisniku(usluga) { }   da li da ubacimo u 
+    class korisnik niz gdje cemo ubacivat sve iskoristene usluge?*/
+    // #izdajRacunKorisniku() { }  da li da prebacimo u class Racun?
     odjaviKorisnika(korisnik) { }
     provjeriJeLiPrijavljen(korisnik) { }
     izlogujSve(korisnik) { }
     izlogujIndividualno(korisnik) { }
     ugasiSistem() { }
     pretraziKorisnika(parametar) { }
+
+
+    get prikaziKorisnikovPassword(){
+        return this.#dodjeliPasswordKorisniku;
+    }
+
+    // get prikaziRacun(){
+    //     return this.#izdajRacunKorisniku;
+    // } 
 
 }
 
@@ -101,7 +104,7 @@ class Korisnik {
 class Usluga {
     naziv;
     cijena;
-    brojac = 0;
+    // brojac = 0;
 
     constructor(naziv, cijena) {
         this.naziv = naziv;
@@ -123,11 +126,15 @@ class Usluga {
 
 class Racun {
     //ukupni racun, historija usluga
-    ukupniRacun;
+    #ukupniRacun;
     historijaUsluga = [];
 
-    saberiBezUsluga() { }
+    bezDodatnihUsluga() { }
     dodajCijeneDodatnihUsluga(cijena) { }
+
+    get prikaziRacun(){
+        return this.#ukupniRacun;
+    }
 }
 
 const Tuzla = new Hostel(7)
@@ -153,4 +160,3 @@ const restoran = new Usluga('restoran', 20)
 const bazen = new Usluga('bazen', 15)
 const sauna = new Usluga('sauna', 10)
 
-const admin1 = new Admin('korisnik1', 123456789, 2, 'jednokrevetna', '12h')
