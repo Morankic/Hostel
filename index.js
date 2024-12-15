@@ -108,10 +108,11 @@ class Korisnik {
   traziPromjenuSobe(soba) {}
   odjaviSe() {}
 }
+
 class Usluga {
   naziv;
   cijena;
-  // brojac = 0;
+  brojac = 0;
 
   constructor(naziv, cijena) {
     this.naziv = naziv;
@@ -128,16 +129,37 @@ class Usluga {
   // Bazen 10 KM
   // Sauna 10 KM
 
-  ponovoIskoristiMetodu(naziv) {}
+  ponovoIskoristiUslugu(naziv) {
+    if (this.naziv === naziv) {
+      this.brojac++;
+      console.log(
+        `Usluga ${this.naziv} je iskorištena ${this.brojac} puta, cijena usluge iznosi ${this.cijena}KM`
+      );
+    } else {
+      console.log(`Usluga koju ste tražili ne postoji`);
+    }
+  }
 }
 
 class Racun {
   //ukupni racun, historija usluga
-  #ukupniRacun;
+  #ukupniRacun = 0;
   historijaUsluga = [];
 
-  bezDodatnihUsluga() {}
-  dodajCijeneDodatnihUsluga(cijena) {}
+  bezDodatnihUsluga() {
+    for (let i = 0; i < this.historijaUsluga.length; i++) {
+      console.log(
+        `${i + 1}. ${this.historijaUsluga[i].usluga} - ${
+          this.historijaUsluga[i].cijena
+        } KM`
+      );
+    }
+  } //broj nocenja
+
+  dodajCijeneDodatnihUsluga(usluga, cijena) {
+    this.#ukupniRacun += cijena;
+    this.historijaUsluga.push({ usluga, cijena });
+  }
 
   get prikaziRacun() {
     return this.#ukupniRacun;
@@ -167,5 +189,9 @@ const restoran = new Usluga("restoran", 20);
 const bazen = new Usluga("bazen", 15);
 const sauna = new Usluga("sauna", 10);
 
-soba1.promjeniDostupnost("slobodna");
-soba2.promjeniDostupnost("zauzeta");
+//soba1.promjeniDostupnost("slobodna");
+//soba2.promjeniDostupnost("zauzeta");
+
+//teretana.ponovoIskoristiUslugu("teretana");
+//teretana.ponovoIskoristiUslugu("teretana");
+//kino.ponovoIskoristiUslugu("kino");
