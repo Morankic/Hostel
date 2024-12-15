@@ -52,6 +52,7 @@ class Admin {
         this.brojac = 1;
         this.brojacZaPassword = 1;
         this.redniBrojSobe = 1;
+        this.jeOdjavljen = false;
     }
 
     dodjeliKorisnickoImeKorisniku(korisnik) {
@@ -77,7 +78,7 @@ class Admin {
 
         if (slobodneSobe.length > 0) {
             const soba = slobodneSobe[0];
-            soba.promjeniDostupnost(false);
+            soba.jeSlobodna = false;
             korisnik.soba = soba;
             korisnik.vrijemePrijave = new Date();
             console.log(`Vrijeme prijave korisnika je ${korisnik.vrijemePrijave}`);
@@ -94,11 +95,13 @@ class Admin {
                 return;
             }
             else {
-                const zamjenjenaSoba = hostel.dostupneSobe.filter(soba => soba.tipSobe.toLowerCase() === novaSoba.toLowerCase() && soba.jeSlobodna === 'true' && soba.redniBrojSobe !== korisnik.soba.redniBrojSobe);
+                const zamjenjenaSoba = hostel.dostupneSobe.filter(soba => soba.tipSobe.toLowerCase() === novaSoba.toLowerCase() && soba.jeSlobodna === true && soba.redniBrojSobe !== korisnik.soba.redniBrojSobe);
+
+                korisnik.soba.jeSlobodna = true;
 
                 if (zamjenjenaSoba.length > 0) {
                     korisnik.soba = zamjenjenaSoba[0];
-                    zamjenjenaSoba[0].jeSlobodna = 'false';
+                    zamjenjenaSoba[0].jeSlobodna = false;
                     console.log(`Soba korisnika je promijenjena u sobu broj ${zamjenjenaSoba[0].redniBrojSobe}, tip: ${zamjenjenaSoba[0].tipSobe}.`);
 
                 } else {
@@ -110,18 +113,65 @@ class Admin {
         }
     }
 
-   
+    odjaviKorisnika(korisnik) {
+        if (!korisnik.jeOdjavljen) {
+            korisnik.jeOdjavljen = true;
+            if (korisnik.soba) korisnik.soba.jeSlobodna = true;
+            console.log(`Korisnik ${korisnik.ime} je uspjesno odjavljen.`);
+        } else {
+            console.log(`Korisnik ${korisnik.ime} je vec odjavljen.`);
+        }
+    }
+
+    provjeriJeLiPrijavljen(korisnik) {
+        const ispis = !korisnik.jeOdjavljen;
+        console.log(`Korisnik ${korisnik.ime} je prijavljen: ${ispis}`);
+    }
+
+    izlogujSve() {
+        this.spisakKorisnika.forEach(korisnik => {
+            if (!korisnik.jeOdjavljen) {
+                korisnik.jeOdjavljen = true;
+                console.log(`Korisnik ${korisnik.ime} je uspjesno izlogovan.`);
+            }
+        });
+    }
+
+    izlogujIndividualno(korisnik) {
+        if (!korisnik.jeOdjavljen) {
+            korisnik.jeOdjavljen = true;
+            console.log(`Korisnik ${korisnik.ime} je uspjesno izlogovan.`);
+        } else {
+            console.log(`Korisnik ${korisnik.ime} je vec odjavljen.`);
+        }
+    }
+
+    ugasiSistem() {
+
+        Tuzla.dostupneSobe.forEach(soba => {
+            soba.jeSlobodna = true;
+        });
+
+        this.spisakKorisnika.forEach(korisnik => {
+            if (!korisnik.jeOdjavljen) {
+                korisnik.jeOdjavljen = true;
+                if (korisnik.soba) {
+                    korisnik.soba.jeSlobodna = true;
+                }
+                console.log(`Korisnik ${korisnik.ime} je odjavljen jer je sistem ugasen.`);
+            }
+        });
+        console.log("Sistem je uspjeno ugasen.");
+    }
+
+    pretraziKorisnika(korisnik, parametar) { }
+
     /* azurirajIskoristeneUslugeKorisniku(usluga) { }   da li da ubacimo u 
     class korisnik niz gdje cemo ubacivat sve iskoristene usluge?*/
+
     // #izdajRacunKorisniku() { }  da li da prebacimo u class Racun?
-    odjaviKorisnika(korisnik) { }
-    provjeriJeLiPrijavljen(korisnik) { }
-    izlogujSve(korisnik) { }
-    izlogujIndividualno(korisnik) { }
-    ugasiSistem() { }
-    pretraziKorisnika(parametar) { }
 
-
+    
     // get prikaziKorisnikovPassword(){
     //     return this.#dodjeliPasswordKorisniku;
     // }
@@ -230,4 +280,3 @@ const admin = new Admin()
 admin.dodjeliSobu(Amer, Tuzla, 2)
 console.log(Amer.soba);
 console.log(Amer.vrijemePrijave);
-
