@@ -250,7 +250,8 @@ class Soba {
     } else {
       console.log(`Nepravilan unos za stanje sobe`);
       return null;
-
+    }
+  }
 
     get spisakKorisnika() {
         return this.#sviKorisnici;
@@ -283,6 +284,7 @@ class Admin {
         korisnik.password = this.formatirajSifru(this.brojacZaPassword);
         this.brojacZaPassword++;
     }
+  
     formatirajSifru(broj) {
         let trenutniBroj = broj.toString();
         while (trenutniBroj.length < 4) {
