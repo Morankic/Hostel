@@ -210,26 +210,6 @@ console.log(`Trenutna soba: ${korisnik.trenutnaSoba}`);
 
 console.log(`Ukupan račun za korisnika: ${korisnik.izracunajUkupanRacun()} KM`);
 
-class Hostel {
-  /* ukupan broj soba,korisnici(niz), koje su sobe dostupne*/
-  //provjeri dvokretne i jednokrevetne, deluxe -ukupno 7 soba
-  ukupniBrojSoba;
-  #sviKorisnici = [];
-  dostupneSobe = [];
-
-  constructor(ukupniBrojSoba) {
-    this.ukupniBrojSoba = ukupniBrojSoba;
-  }
-
-  provjeriDostupnostSobe(unesenaSoba) {}
-
-  ispisiSveKorisnike() {}
-
-
-  get spisakKorisnika() {
-    return this.#sviKorisnici;
-  }
-}
 
 class Soba {
   // tip sobe, da li je slobodna, broj sobe
@@ -252,10 +232,11 @@ class Soba {
       return null;
 
 
-    get spisakKorisnika() {
-        return this.#sviKorisnici;
-    }
+    // get spisakKorisnika() {
+    //     return this.#sviKorisnici;
+    // }
 }
+  }}
 
 class Admin {
     //objekat, vrijeme prijave u hotel, korisnicko ime, password za korisnika ,broj i tip sobe-metoda 1(registruje)
@@ -407,19 +388,19 @@ class Admin {
     // get prikaziRacun(){
     //     return this.#izdajRacunKorisniku;
     // } 
-    get spisakKorisnika(){
-        return this.#sviKorisnici;
-    }
+    // get spisakKorisnika(){
+    //     return this.#sviKorisnici;
+    // }
 }
-    }
-    console.log(
-      `Promjenili ste stanje sobe ${this.redniBrojSobe} u ${
-        this.jeSlobodna ? "slobodna" : "zauzeta"
-      }`
-    );
-    return this.jeSlobodna;
-  }
-}
+//     }
+//     console.log(
+//       `Promjenili ste stanje sobe ${this.redniBrojSobe} u ${
+//         this.jeSlobodna ? "slobodna" : "zauzeta"
+//       }`          
+//     );
+//     return this.jeSlobodna;
+//   }
+// }
 
 
 class Usluga {
