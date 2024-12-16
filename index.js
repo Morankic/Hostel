@@ -1,3 +1,4 @@
+
 class Hostel {
     ukupniBrojSoba;
     #sviKorisnici = [];
@@ -170,3 +171,4 @@ korisnik.traziPromjenuSobe("Soba 205");
 console.log(`Trenutna soba: ${korisnik.trenutnaSoba}`);
 
 console.log(`Ukupan račun za korisnika: ${korisnik.izracunajUkupanRacun()} KM`);
+
