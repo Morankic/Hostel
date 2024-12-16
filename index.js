@@ -17,6 +17,7 @@ class Hostel {
 
     }
 
+
     get spisakKorisnika() {
         return this.#sviKorisnici;
     }
@@ -188,8 +189,67 @@ class Admin {
     // get prikaziRacun(){
     //     return this.#izdajRacunKorisniku;
     // } 
+    get spisakKorisnika(){
+        return this.#sviKorisnici;
+    }
+}
+
+class Soba {
+    // tip sobe, da li je slobodna, broj sobe
+    tipSobe;
+    redniBrojSobe;
+    jeSlobodna = 'true';
+
+    constructor(tipSobe, redniBrojSobe) {
+        this.tipSobe = tipSobe;
+        this.redniBrojSobe = redniBrojSobe;
+    }
+
+    promjeniDostupnost(trenutnoStanje) {
+
+
+    }
+}
+
+
+class Admin {
+    //objekat, vrijeme prijave u hotel, korisnicko ime, password za korisnika ,broj i tip sobe-metoda 1(registruje)
+    // promjena sobe i tipa sobe, dodatne usluge -metoda 2(dodatnaUsluga)
+    //racun za usluge -metoda 3 (izdajRacun(imeKorisnika))
+    //odjava korisnika i pullaj iz niza -metoda4 (odjaviKorisnika)
+    //provjeri je li prijavljen-metoda 5.25 (jeLiUHotelu)
+    //izloguj sve ili individualno - metoda 5.5()
+    //metoda 5.75 (ugasiSistem)
+    //pretrazi korisnika po imenu/br licne karte/username -metoda 6(pretraziKorisnika)
+    
+    dodjeliKorisnickoImeKorisniku(korisnik){}
+    #dodjeliPasswordKorisniku(korisnik){}
+    dodjeliBrojSobe(){}
+    dodjeliTipSobe(){}
+    unesiVrijemePrijaveUHotel(){}
+    promjeniSobu() { }
+    promjeniTipSobe() { }
+    /* azurirajIskoristeneUslugeKorisniku(usluga) { }   da li da ubacimo u 
+    class korisnik niz gdje cemo ubacivat sve iskoristene usluge?*/
+    // #izdajRacunKorisniku() { }  da li da prebacimo u class Racun?
+    odjaviKorisnika(korisnik) { }
+    provjeriJeLiPrijavljen(korisnik) { }
+    izlogujSve(korisnik) { }
+    izlogujIndividualno(korisnik) { }
+    ugasiSistem() { }
+    pretraziKorisnika(parametar) { }
+
+
+    get prikaziKorisnikovPassword(){
+        return this.#dodjeliPasswordKorisniku;
+    }
+
+    // get prikaziRacun(){
+    //     return this.#izdajRacunKorisniku;
+    // } 
 
 }
+
 
 class Korisnik {
     //ime prezime, spol, broj licne karte, godine
@@ -247,7 +307,11 @@ class Racun {
     bezDodatnihUsluga() { }
     dodajCijeneDodatnihUsluga(cijena) { }
 
+
     get prikaziRacun() {
+
+    get prikaziRacun(){
+
         return this.#ukupniRacun;
     }
 }
@@ -275,6 +339,7 @@ const restoran = new Usluga('restoran', 20)
 const bazen = new Usluga('bazen', 15)
 const sauna = new Usluga('sauna', 10)
 
+
 const admin = new Admin()
 
 // admin.dodjeliKorisnickoImeKorisniku(Amer)
@@ -289,3 +354,4 @@ const admin = new Admin()
 admin.dodjeliSobu(Amer, Tuzla, 2)
 console.log(Amer.soba);
 console.log(Amer.vrijemePrijave);
+
