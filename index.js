@@ -86,9 +86,12 @@ class Admin {
         } else {
             console.log(`Nema slobodnih soba za ${brojGostiju} gosta.`);
         }
+        if (!hostel.spisakKorisnika.includes(korisnik)) {
+            hostel.spisakKorisnika.push(korisnik);
+        }
     }
 
-    promjeniSobu(korisnik, novaSoba) {
+    promjeniSobu(korisnik,hostel, novaSoba) {
         if (novaSoba.toLowerCase() === 'jednokrevetna' || novaSoba.toLowerCase() === 'dvokrevetna' || novaSoba.toLowerCase() === 'deluxe') {
             if (novaSoba.toLowerCase() === korisnik.soba.tipSobe.toLowerCase()) {
                 console.log("Trenutno se nalazite u trazenom tipu sobe")
@@ -128,8 +131,8 @@ class Admin {
         console.log(`Korisnik ${korisnik.ime} je prijavljen: ${ispis}`);
     }
 
-    izlogujSve() {
-        this.spisakKorisnika.forEach(korisnik => {
+    izlogujSve(hostel) {
+        hostel.spisakKorisnika.forEach(korisnik => {
             if (!korisnik.jeOdjavljen) {
                 korisnik.jeOdjavljen = true;
                 console.log(`Korisnik ${korisnik.ime} je uspjesno izlogovan.`);
@@ -146,13 +149,11 @@ class Admin {
         }
     }
 
-    ugasiSistem() {
-
-        Tuzla.dostupneSobe.forEach(soba => {
+    ugasiSistem(hostel) {
+        hostel.dostupneSobe.forEach(soba => {
             soba.jeSlobodna = true;
         });
-
-        this.spisakKorisnika.forEach(korisnik => {
+        hostel.spisakKorisnika.forEach(korisnik => {
             if (!korisnik.jeOdjavljen) {
                 korisnik.jeOdjavljen = true;
                 if (korisnik.soba) {
@@ -164,14 +165,22 @@ class Admin {
         console.log("Sistem je uspjeno ugasen.");
     }
 
-    pretraziKorisnika(korisnik, parametar) { }
+    pretraziKorisnika(korisnici, parametar) {
+        const pretraga = parametar.toLowerCase();
+        return korisnici.filter(korisnik =>
+            korisnik.username.toLowerCase().includes(pretraga) ||
+            korisnik.ime.toLowerCase().includes(pretraga) ||
+            korisnik.brojLicneKarte.toLowerCase().includes(pretraga)
+        );
+     
+    }
 
-    /* azurirajIskoristeneUslugeKorisniku(usluga) { }   da li da ubacimo u 
-    class korisnik niz gdje cemo ubacivat sve iskoristene usluge?*/
+
+    // azurirajIskoristeneUslugeKorisniku(usluga) {}  
 
     // #izdajRacunKorisniku() { }  da li da prebacimo u class Racun?
 
-    
+
     // get prikaziKorisnikovPassword(){
     //     return this.#dodjeliPasswordKorisniku;
     // }
