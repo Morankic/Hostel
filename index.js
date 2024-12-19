@@ -282,7 +282,7 @@ class Admin {
         );
 
     }
-    // azurirajIskoristeneUslugeKorisniku(usluga) {}  
+     
     
     // get prikaziKorisnikovPassword(){ return this.#dodjeliPasswordKorisniku }
     // get prikaziRacun(){  return this.#izdajRacunKorisniku;} 
