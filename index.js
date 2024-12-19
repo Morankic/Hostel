@@ -283,7 +283,7 @@ class Admin {
 
     }
     // azurirajIskoristeneUslugeKorisniku(usluga) {}  
-    // #izdajRacunKorisniku() { }  da li da prebacimo u class Racun?
+    
     // get prikaziKorisnikovPassword(){ return this.#dodjeliPasswordKorisniku }
     // get prikaziRacun(){  return this.#izdajRacunKorisniku;} 
     // get spisakKorisnika(){return this.#sviKorisnici}
