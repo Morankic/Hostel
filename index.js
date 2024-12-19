@@ -35,6 +35,7 @@ class Hostel {
             console.log(`${korisnik.ime} ${korisnik.prezime} - Soba: ${korisnik.brojSobe}`);
         });
     }
+   
 }
 
 class Korisnik {
@@ -141,6 +142,13 @@ class Korisnik {
 
         this.trenutnaSoba = novaSoba;
         console.log("Promjena sobe uspješno izvršena.");
+    }
+    ukupanRacun(){
+        let suma = 0
+        for(let i = 0; i<this.usluge.length;i++){
+            suma += this.usluge[i].cijena
+        } 
+        return suma
     }
 }
 
@@ -316,7 +324,8 @@ class Racun {
 class Usluga {
     naziv;
     cijena;
-    brojac = 0;
+    
+
 
     constructor(naziv, cijena) {
         this.naziv = naziv;
@@ -333,16 +342,16 @@ class Usluga {
     // Bazen 10 KM
     // Sauna 10 KM
 
-    ponovoIskoristiUslugu(naziv) {
-        if (this.naziv === naziv) {
-            this.brojac++;
-            console.log(
-                `Usluga ${this.naziv} je iskorištena ${this.brojac} puta, cijena usluge iznosi ${this.cijena}KM`
-            );
-        } else {
-            console.log(`Usluga koju ste tražili ne postoji`);
-        }
-    }
+    // ponovoIskoristiUslugu(naziv) {
+    //     if (this.naziv === naziv) {
+            
+    //         console.log(
+    //             `Usluga ${this.naziv} je iskorištena ${this.brojac} puta, cijena usluge iznosi ${this.cijena}KM`
+    //         );
+    //     } else {
+    //         console.log(`Usluga koju ste tražili ne postoji`);
+    //     }
+    // }
 }
 
 class Soba {
@@ -409,16 +418,22 @@ const admin = new Admin()
 // console.log(Amer.password)
 // console.log(Belma.password)
 // Testiranje
-// const korisnik = new Korisnik('Amer', 'Mustafa', 'Musko', 'OK7421953', 31);
-// const usluga1 = new Usluga('Sauna', 10);
-// const usluga2 = new Usluga('Bazen', 15);
-// const usluga3 = new Usluga('Restoran', 20);
+const korisnik = new Korisnik('Amer', 'Mustafa', 'Musko', 'OK7421953', 31);
+const usluga1 = new Usluga('Sauna', 10);
+const usluga2 = new Usluga('Bazen', 15);
+const usluga3 = new Usluga('Restoran', 20);
 // korisnik.postaviDatume("2024-12-10", "2024-12-14");
-// korisnik.dodajUslugu(usluga1);
-// korisnik.dodajUslugu(usluga2);
-// korisnik.dodajUslugu(usluga3);
+korisnik.dodajUslugu(usluga1);
+korisnik.dodajUslugu(usluga2);
+korisnik.dodajUslugu(usluga3);
 // console.log(`Broj noćenja: ${korisnik.brojNocenja()}`);
 // console.log(`Ukupan iznos za noćenja: ${korisnik.naplatiNocenja()} KM`);
 // korisnik.traziPromjenuSobe("Soba 205");
 // console.log(`Trenutna soba: ${korisnik.trenutnaSoba}`);
 // console.log(`Ukupan račun za korisnika: ${korisnik.izracunajUkupanRacun()} KM`);
+
+
+console.log(korisnik.usluge);
+
+console.log(korisnik.ukupanRacun());
+
