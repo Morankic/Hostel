@@ -37,12 +37,12 @@ class Hostel {
     }
 
     dostupneSobe() {
-        this.sobe.filter(soba => {
+        this.slobodneSobe = []; 
+        this.sobe.forEach(soba => {
             if (soba.jeSlobodna) {
-            this.slobodneSobe.push(`Soba ${soba.redniBrojSobe} (${soba.tipSobe}) - ${soba.jeSlobodna}`)
-            }
+                this.slobodneSobe.push(soba) }
         });
-        return this.slobodneSobe ;
+        return this.slobodneSobe; 
     }
 
     get spisakKorisnika() {
@@ -73,12 +73,14 @@ class Korisnik {
 
     dodajUslugu(usluga) {
         this.sveUsluge.push(usluga);
-        console.log(`Usluga ${usluga.naziv} je slobodna za koristenje`);
+        console.log(`Usluga ${usluga.naziv} je slobodna za koristenje i dodana na racun korisnika`);
     }
 
     postaviDatume(datumPrijave, datumOdjave) {
         this.datumPrijave = this.parsirajDatum(datumPrijave);
         this.datumOdjave = this.parsirajDatum(datumOdjave);
+        console.log(datumOdjave)
+        console.log(datumPrijave)
     }
 
     parsirajDatum(datum) {
@@ -169,17 +171,19 @@ class Admin {
         this.brojacZaPassword = 1;
         this.redniBrojSobe = 1;
         this.jeOdjavljen = false;
-    }
+       }
 
     dodjeliKorisnickoImeKorisniku(korisnik) {
         korisnik.korisnickoIme = `korisnik${this.brojac}`;
         this.brojac++;
+        console.log(`Dodjeljeno korisnicko ime za korisnika: ${korisnik.ime} je ${korisnik.korisnickoIme}`);
     }
 
     dodjeliPasswordKorisniku(korisnik) {
         korisnik.password = this.formatirajSifru(this.brojacZaPassword);
         this.brojacZaPassword++;
     }
+
     formatirajSifru(broj) {
         let trenutniBroj = broj.toString();
         while (trenutniBroj.length < 4) {
@@ -188,7 +192,7 @@ class Admin {
         return trenutniBroj;
     }
 
-    dodjeliSobu(korisnik, hostel, brojGostiju) {
+    dodijeliSobu(korisnik, hostel, brojGostiju) {
         const tipSobe = brojGostiju === 1 ? 'jednokrevetna' : brojGostiju === 2 ? 'dvokrevetna' : 'deluxe';
         const slobodneSobe = hostel.sobe.filter(soba => soba.jeSlobodna && soba.tipSobe === tipSobe);
 
@@ -198,7 +202,7 @@ class Admin {
             korisnik.soba = soba;
             hostel.spisakKorisnika.push(korisnik);
             korisnik.vrijemePrijave = korisnik.datumPrijave;
-            console.log(`Datum prijave korisnika je ${korisnik.datumPrijave[0]}.${korisnik.datumPrijave[1]}.${korisnik.datumPrijave[2]}`);
+            // console.log(`Datum prijave korisnika je ${korisnik.datumPrijave[0]}.${korisnik.datumPrijave[1]}.${korisnik.datumPrijave[2]}`);
             console.log(`Korisniku ${korisnik.ime} dodijeljena je soba broj ${soba.redniBrojSobe}, tipSobe: ${soba.tipSobe}.`);
         } else {
             console.log(`Nema slobodnih soba za broj gostiju: ${brojGostiju}.`);
@@ -212,7 +216,7 @@ class Admin {
                 return;
             }
             else {
-                const zamjenjenaSoba = hostel.dostupneSobe().filter(soba => soba.tipSobe.toLowerCase() === novaSoba.toLowerCase() && soba.jeSlobodna === true && soba.redniBrojSobe !== korisnik.soba.redniBrojSobe);
+                const zamjenjenaSoba = hostel.dostupneSobe().filter(soba => soba.tipSobe === novaSoba.toLowerCase() && soba.jeSlobodna === true && soba.redniBrojSobe !== korisnik.soba.redniBrojSobe);
 
                 korisnik.soba.jeSlobodna = true;
 
@@ -230,23 +234,9 @@ class Admin {
         }
     }
 
-    odjaviKorisnika(korisnik) {
-        if (!korisnik.jeOdjavljen) {
-            korisnik.jeOdjavljen = true;
-
-            if (korisnik.soba) {
-                korisnik.soba.jeSlobodna = true;
-                korisnik.soba = null;
-            }
-            console.log(`Korisnik ${korisnik.ime} je uspjesno odjavljen.`);
-        } else {
-            console.log(`Korisnik ${korisnik.ime} je vec odjavljen.`);
-        }
-    }
-
     provjeriJeLiPrijavljen(korisnik) {
         const ispis = !korisnik.jeOdjavljen;
-        console.log(`Korisnik ${korisnik.ime} je prijavljen: ${ispis}`);
+        console.log(`Korisnik ${korisnik.ime} je prijavljen: ${ispis ? 'da' : 'ne'}`);
     }
 
     izlogujSve(hostel) {
@@ -258,14 +248,14 @@ class Admin {
         });
     }
 
-    izlogujIndividualno(korisnik) {
-        if (!korisnik.jeOdjavljen) {
-            korisnik.jeOdjavljen = true;
-            console.log(`Korisnik ${korisnik.ime} je uspjesno izlogovan.`);
-        } else {
-            console.log(`Korisnik ${korisnik.ime} je vec odjavljen.`);
-        }
-    }
+    // izlogujIndividualno(korisnik,hostel) {
+    //     if (!korisnik.jeOdjavljen) {
+    //         korisnik.jeOdjavljen = true;
+    //         console.log(`Korisnik ${korisnik.ime} je uspjesno izlogovan.`);
+    //     } else {
+    //         console.log(`Korisnik ${korisnik.ime} je vec odjavljen.`);
+    //     }
+    // }  ispravit cu sutra
 
     ugasiSistem(hostel) {
         hostel.dostupneSobe().forEach(soba => {
@@ -298,6 +288,7 @@ class Admin {
         return brojDana * cjenaPoNocenju;
     }
 }
+
 
 class Racun {
     //ukupni racun, historija usluga
@@ -376,14 +367,12 @@ class Soba {
 }
 
 const Tuzla = new Hostel(7);
-
 const Amer = new Korisnik("Amer", "Musko", "OK7421953", 31);
 const Belma = new Korisnik("Belma", "Zensko", "OK342923", 27);
 const Sanela = new Korisnik("Sanela", "Zensko", "OK122529", 42);
 const Hamza = new Korisnik("Hamza", "Musko", "OK1431666", 44);
 const Elmir = new Korisnik("Elmir", "Musko", "OK1214943", 18);
 const Semir = new Korisnik("Semir", "Musko", "OK4801953", 21);
-const korisnik = new Korisnik('Nerko', 'Mustafa', 'Musko', 'OK7421953', 31);
 
 const teretana = new Usluga("teretana", 10);
 const kino = new Usluga("kino", 10);
@@ -393,51 +382,44 @@ const sauna = new Usluga("sauna", 10);
 const admin = new Admin()
 
 // Tuzla.provjeriDostupnostSobe(1)
-// admin.dodjeliSobu(Belma,Tuzla,2)
-// Tuzla.ispisiSveKorisnike()
+admin.dodijeliSobu(Amer, Tuzla, 8)
+Amer.postaviDatume("2024-12-10", "2024-12-14");
+Amer.brojNocenja(3) // ne radi tacno
+console.log(Amer.datumOdjave);
+admin.dodijeliSobu(Belma,Tuzla,2)
+Tuzla.ispisiSveKorisnike()
 // Tuzla.prikaziSveSobe()
 // Tuzla.dostupneSobe()
 // Amer.dodajUslugu(sauna)
 // Amer.dodajUslugu(bazen)
 // Amer.dodajUslugu(sauna)
 // console.log(Amer.sveUsluge);
-Amer.postaviDatume("2024-12-10", "2024-12-14");
-Amer.brojNocenja(3) // ne radi tacno
-console.log(Amer.datumOdjave);
-admin.dodjeliSobu(Amer, Tuzla, 8)
-Amer.traziPromjenuSobe('jednokrevetna', Tuzla)
+// Amer.traziPromjenuSobe()
 // console.log(Amer.soba.cijena);
 // Amer.naplatiNocenja(Amer)
 // Amer.ukupanRacun()
-
-
-
-
-
 // admin.dodjeliKorisnickoImeKorisniku(Amer)
+// admin.dodjeliPasswordKorisniku(Amer)
+// console.log(Amer.password);
+// admin.promjeniSobu(Amer,Tuzla,'dvokrevetna')
+// console.log(Tuzla.dostupneSobe());
 // admin.dodjeliKorisnickoImeKorisniku(Belma)
 // console.log(Amer.korisnickoIme)
 // console.log(Belma.korisnickoIme)
-// admin.dodjeliPasswordKorisniku(Amer)
 // admin.dodjeliPasswordKorisniku(Belma)
 // console.log(Amer.password)
 // console.log(Belma.password)
+// console.log(Tuzla.dostupneSobe())
+// admin.provjeriJeLiPrijavljen(Amer)
+//admin.izlogujIndividualno(Amer,Tuzla) // ne radi
 
 
 // console.log(`Broj noćenja: ${ korisnik.brojNocenja() } `);
 // console.log(`Ukupan iznos za noćenja: ${ korisnik.naplatiNocenja() } KM`);
-// korisnik.traziPromjenuSobe("Soba 205");
-// console.log(`Trenutna soba: ${ korisnik.trenutnaSoba } `);
 // // console.log(`Ukupan račun za korisnika: ${ korisnik.izracunajUkupanRacun() } KM`);
-// Tuzla.provjeriDostupnostSobe('jednokrevetna')
 // console.log(korisnik.usluge);
 // console.log(korisnik.ukupanRacun());
-// Tuzla.ispisiSveKorisnike()
-// Tuzla.dodajKorisnika(Belma,2)
 
-
-
-// console.log(Tuzla.dostupneSobe())
 // jednokrevetna soba 20 KM
 // dvokrevetna soba 40 KM
 // apartman 60 KM
@@ -446,4 +428,4 @@ Amer.traziPromjenuSobe('jednokrevetna', Tuzla)
 // Restoran 20 KM
 // Bazen 10 KM
 // Sauna 10
-// Tuzla.ubaciKorisnika(Amer)
+
